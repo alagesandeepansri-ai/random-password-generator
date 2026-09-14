@@ -29,6 +29,39 @@
                 required
             >
 
+            <div class="presets">
+                <button type="button" onclick="setLength(8)">8</button>
+                <button type="button" onclick="setLength(12)">12</button>
+                <button type="button" onclick="setLength(16)">16</button>
+                <button type="button" onclick="setLength(20)">20</button>
+            </div>
+
+            <h3>Character Options</h3>
+
+            <div class="options">
+
+                <label>
+                    <input type="checkbox" name="uppercase" checked>
+                    Uppercase Letters (A-Z)
+                </label>
+
+                <label>
+                    <input type="checkbox" name="lowercase" checked>
+                    Lowercase Letters (a-z)
+                </label>
+
+                <label>
+                    <input type="checkbox" name="numbers" checked>
+                    Numbers (0-9)
+                </label>
+
+                <label>
+                    <input type="checkbox" name="symbols" checked>
+                    Symbols (!@#$)
+                </label>
+
+            </div>
+
             <button type="submit">Generate Password</button>
 
         </form>
@@ -38,11 +71,39 @@
 
             <h3>Your Password</h3>
 
-            <div class="password-box">
+            <div class="password-box"
+                 data-password="{{ password }}"
+                 data-hidden="false">
                 {{ password }}
             </div>
 
+            <button onclick="togglePassword()">👁️ Show / Hide Password</button>
+
             <button onclick="copyPassword()">Copy Password</button>
+
+            <h3>Password Strength</h3>
+
+            <div class="strength-box">
+                {{ strength }}
+            </div>
+
+        </div>
+        {% endif %}
+
+        {% if history %}
+        <div class="history">
+
+            <h3>Password History</h3>
+
+            {% for item in history %}
+            <div class="history-item">
+                {{ item }}
+            </div>
+            {% endfor %}
+
+            <form method="POST" action="/clear-history">
+                <button type="submit">🗑️ Clear History</button>
+            </form>
 
         </div>
         {% endif %}

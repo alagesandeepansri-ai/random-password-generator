@@ -57,11 +57,46 @@ button {
     color: white;
     font-size: 16px;
     cursor: pointer;
+    margin-bottom: 10px;
 }
 
 button:hover {
     background: #5568d9;
 }
+
+/* Password Length Presets */
+
+.presets {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.presets button {
+    margin-bottom: 0;
+    padding: 9px;
+    font-size: 14px;
+}
+
+/* Character Options */
+
+.options {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.options input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Result */
 
 .result {
     margin-top: 25px;
@@ -78,4 +113,34 @@ button:hover {
     margin-bottom: 12px;
     word-break: break-all;
     font-weight: bold;
+}
+
+.strength-box {
+    padding: 12px;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Password History */
+
+.history {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.history h3 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.history-item {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    word-break: break-all;
+    font-family: monospace;
 }
