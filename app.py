@@ -2,10 +2,14 @@ from flask import Flask, render_template, request, redirect, session
 import string
 import random
 import sqlite3
+from database import create_database
 
 app = Flask(__name__)
 
 app.secret_key = "random-password-generator-secret-key"
+
+# Create database and tables automatically
+create_database()
 
 
 def get_db_connection():
@@ -28,7 +32,6 @@ def home():
 
         return redirect("/login")
 
-
     conn = get_db_connection()
 
     history_rows = conn.execute("""
@@ -39,7 +42,6 @@ def home():
     """, (session["user_id"],)).fetchall()
 
     conn.close()
-
 
     return render_template(
         "index.html",
@@ -70,7 +72,6 @@ def register():
 
         password = request.form["password"]
 
-
         if not email and not mobile:
 
             message = "Please enter Email or Mobile Number."
@@ -79,7 +80,6 @@ def register():
                 "register.html",
                 message=message
             )
-
 
         conn = get_db_connection()
 
@@ -103,13 +103,11 @@ def register():
 
             return redirect("/login")
 
-
         except sqlite3.IntegrityError:
 
             conn.close()
 
             message = "Email or Mobile Number already registered."
-
 
     return render_template(
         "register.html",
@@ -132,7 +130,6 @@ def login():
 
         password = request.form["password"]
 
-
         conn = get_db_connection()
 
         user = conn.execute("""
@@ -148,7 +145,6 @@ def login():
 
         conn.close()
 
-
         if user:
 
             session["user_id"] = user["id"]
@@ -157,11 +153,9 @@ def login():
 
             return redirect("/")
 
-
         else:
 
             message = "Invalid Email/Mobile Number or Password."
-
 
     return render_template(
         "login.html",
@@ -192,37 +186,29 @@ def generate_password():
 
         return redirect("/login")
 
-
     password = ""
 
     strength = ""
 
-
     length = int(request.form["length"])
 
-
     characters = ""
-
 
     if request.form.get("uppercase"):
 
         characters += string.ascii_uppercase
 
-
     if request.form.get("lowercase"):
 
         characters += string.ascii_lowercase
-
 
     if request.form.get("numbers"):
 
         characters += string.digits
 
-
     if request.form.get("symbols"):
 
         characters += string.punctuation
-
 
     if characters:
 
@@ -230,7 +216,6 @@ def generate_password():
             random.choice(characters)
             for _ in range(length)
         )
-
 
         if length < 8:
 
@@ -247,7 +232,6 @@ def generate_password():
         else:
 
             strength = "Very Strong"
-
 
         # Save generated password
 
@@ -266,7 +250,6 @@ def generate_password():
 
         conn.close()
 
-
     # Get complete password history
 
     conn = get_db_connection()
@@ -279,7 +262,6 @@ def generate_password():
     """, (session["user_id"],)).fetchall()
 
     conn.close()
-
 
     return render_template(
         "index.html",
@@ -300,7 +282,6 @@ def clear_history():
 
         return redirect("/login")
 
-
     conn = get_db_connection()
 
     conn.execute("""
@@ -311,7 +292,6 @@ def clear_history():
     conn.commit()
 
     conn.close()
-
 
     return redirect("/")
 
@@ -331,7 +311,6 @@ def admin_login():
 
         password = request.form["password"]
 
-
         conn = get_db_connection()
 
         admin = conn.execute("""
@@ -346,7 +325,6 @@ def admin_login():
 
         conn.close()
 
-
         if admin:
 
             session["admin_id"] = admin["id"]
@@ -355,11 +333,9 @@ def admin_login():
 
             return redirect("/admin-dashboard")
 
-
         else:
 
             message = "Invalid Admin Username or Password."
-
 
     return render_template(
         "admin_login.html",
@@ -378,9 +354,7 @@ def admin_dashboard():
 
         return redirect("/admin-login")
 
-
     conn = get_db_connection()
-
 
     # Get user details and password count
 
@@ -399,14 +373,12 @@ def admin_dashboard():
         ORDER BY users.id DESC
     """).fetchall()
 
-
     # Total registered users
 
     user_count = conn.execute("""
         SELECT COUNT(*) AS total
         FROM users
     """).fetchone()["total"]
-
 
     # Total generated passwords
 
@@ -415,9 +387,7 @@ def admin_dashboard():
         FROM password_history
     """).fetchone()["total"]
 
-
     conn.close()
-
 
     return render_template(
         "admin_dashboard.html",
