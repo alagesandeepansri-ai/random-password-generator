@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Random Password Generator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🔐 Random Password Generator</h1>
+
+        <p>Create a strong and secure password</p>
+
+
+        <!-- Logout -->
+
+        <a href="/logout">
+
+            <button type="button">
+                Logout
+            </button>
+
+        </a>
+
+
+        <form method="POST">
+
+            <label for="length">
+                Password Length
+            </label>
+
+            <input
+                type="number"
+                name="length"
+                id="length"
+                min="4"
+                max="50"
+                value="{{ request.form.get('length', 12) }}"
+                required
+            >
+
+
+            <!-- Password Length Presets -->
+
+            <div class="presets">
+
+                <button
+                    type="button"
+                    onclick="setLength(8)">
+                    8
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setLength(12)">
+                    12
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setLength(16)">
+                    16
+                </button>
+
+                <button
+                    type="button"
+                    onclick="setLength(20)">
+                    20
+                </button>
+
+            </div>
+
+
+            <!-- Character Options -->
+
+            <h3>Character Options</h3>
+
+            <p class="option-description">
+                Select the character types you want to include
+            </p>
+
+
+            <div class="options">
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="uppercase"
+                        {% if request.form.get('uppercase') %}
+                        checked
+                        {% endif %}
+                    >
+
+                    Uppercase Letters (A-Z)
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="lowercase"
+                        {% if request.form.get('lowercase') %}
+                        checked
+                        {% endif %}
+                    >
+
+                    Lowercase Letters (a-z)
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="numbers"
+                        {% if request.form.get('numbers') %}
+                        checked
+                        {% endif %}
+                    >
+
+                    Numbers (0-9)
+
+                </label>
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="symbols"
+                        {% if request.form.get('symbols') %}
+                        checked
+                        {% endif %}
+                    >
+
+                    Symbols (!@#$)
+
+                </label>
+
+            </div>
+
+
+            <button type="submit">
+                Generate Password
+            </button>
+
+        </form>
+
+
+        <!-- Generated Password -->
+
+        {% if password %}
+
+        <div class="result">
+
+            <h3>Your Password</h3>
+
+
+            <div
+                class="password-box"
+                data-password="{{ password }}"
+                data-hidden="false">
+
+                {{ password }}
+
+            </div>
+
+
+            <button
+                type="button"
+                onclick="togglePassword()">
+
+                👁️ Show / Hide Password
+
+            </button>
+
+
+            <button
+                type="button"
+                onclick="copyPassword()">
+
+                Copy Password
+
+            </button>
+
+
+            <h3>Password Strength</h3>
+
+
+            <div class="strength-box">
+
+                {{ strength }}
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        <!-- Password History -->
+
+        {% if history %}
+
+        <div class="history">
+
+            <h3>Password History</h3>
+
+
+            {% for item in history %}
+
+            <div class="history-item">
+
+                <strong>Password:</strong>
+
+                <span>
+                    {{ item["password"] }}
+                </span>
+
+                <br><br>
+
+                <strong>Date:</strong>
+
+                <span>
+                    {{ item["created_at"].split(" ")[0] }}
+                </span>
+
+                <br>
+
+                <strong>Time:</strong>
+
+                <span>
+                    {{ item["created_at"].split(" ")[1] }}
+                </span>
+
+            </div>
+
+            {% endfor %}
+
+
+            <form
+                method="POST"
+                action="/clear-history">
+
+                <button type="submit">
+
+                    🗑️ Clear History
+
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}">
+    </script>
+
+</body>
+
+</html>

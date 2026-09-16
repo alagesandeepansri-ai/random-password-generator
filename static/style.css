@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    background: white;
+    width: 400px;
+    padding: 35px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+h1 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+p {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #667eea;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background: #5568d9;
+}
+
+/* Password Length Presets */
+
+.presets {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.presets button {
+    margin-bottom: 0;
+    padding: 9px;
+    font-size: 14px;
+}
+
+/* Character Options */
+
+.options {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.options label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.options input[type="checkbox"] {
+    width: auto;
+    margin-right: 8px;
+}
+
+/* Result */
+
+.result {
+    margin-top: 25px;
+}
+
+.result h3 {
+    margin-bottom: 10px;
+}
+
+.password-box {
+    background: #f1f1f1;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    word-break: break-all;
+    font-weight: bold;
+}
+
+.strength-box {
+    padding: 12px;
+    border-radius: 8px;
+    background: #e8f5e9;
+    color: #2e7d32;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Password History */
+
+.history {
+    margin-top: 25px;
+    text-align: left;
+}
+
+.history h3 {
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.history-item {
+    background: #f1f1f1;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    word-break: break-all;
+    font-family: monospace;
+}
+
+.option-description {
+    text-align: center;
+    color: #777;
+    font-size: 14px;
+    margin-top: 8px;
+    margin-bottom: 18px;
+}

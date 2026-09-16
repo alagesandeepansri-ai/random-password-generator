@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🛡️ Admin Dashboard</h1>
+
+        <p>Welcome, {{ session["admin_username"] }}</p>
+
+
+        <!-- Dashboard Summary -->
+
+        <div class="result">
+
+            <h3>Total Registered Users</h3>
+
+            <div class="strength-box">
+                {{ user_count }}
+            </div>
+
+
+            <h3>Total Generated Passwords</h3>
+
+            <div class="strength-box">
+                {{ password_count }}
+            </div>
+
+        </div>
+
+
+        <!-- User Management -->
+
+        <div class="history">
+
+            <h3>👥 User Management</h3>
+
+
+            {% if users %}
+
+                {% for user in users %}
+
+                <div class="history-item">
+
+                    <strong>Name:</strong>
+                    {{ user["name"] }}
+
+                    <br>
+
+                    <strong>Email:</strong>
+                    {{ user["email"] or "Not provided" }}
+
+                    <br>
+
+                    <strong>Mobile:</strong>
+                    {{ user["mobile"] or "Not provided" }}
+
+                    <br>
+
+                    <strong>Date of Birth:</strong>
+                    {{ user["dob"] }}
+
+                    <br>
+
+                    <strong>Passwords Generated:</strong>
+                    {{ user["password_count"] }}
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No registered users found.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Admin Logout -->
+
+        <a href="/admin-logout">
+
+            <button type="button">
+                🚪 Admin Logout
+            </button>
+
+        </a>
+
+
+        <!-- User Login -->
+
+        <a href="/login">
+
+            <button type="button">
+                👤 User Login
+            </button>
+
+        </a>
+
+    </div>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}">
+    </script>
+
+</body>
+
+</html>
