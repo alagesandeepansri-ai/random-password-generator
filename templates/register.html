@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,109 +16,162 @@
 
 </head>
 
+
 <body>
 
-    <div class="container">
+<div class="container">
 
-        <h1>👤 User Registration</h1>
+    <h1>📝 User Registration</h1>
 
-        <p>Create your account</p>
-
-
-        {% if message %}
-
-        <p style="color: red; font-weight: bold;">
-            {{ message }}
-        </p>
-
-        {% endif %}
+    <p>
+        Create an account to use the Secure Password Generator.
+    </p>
 
 
-        <form method="POST">
+    {% if message %}
+
+    <p style="
+        color:
+        {% if 'successful' in message %}
+            #2e7d32
+        {% else %}
+            #e53935
+        {% endif %};
+
+        text-align:center;
+        font-weight:bold;
+
+        background:
+        {% if 'successful' in message %}
+            #e8f5e9
+        {% else %}
+            #ffebee
+        {% endif %};
+
+        padding:12px;
+        border-radius:8px;
+    ">
+        {{ message }}
+    </p>
+
+    {% endif %}
 
 
-            <label for="name">
-                Name
-            </label>
-
-            <input
-                type="text"
-                name="name"
-                id="name"
-                placeholder="Enter your name"
-                required
-            >
+    <form method="POST">
 
 
-            <label for="email">
-                Email Address
-            </label>
+        <!-- NAME -->
 
-            <input
-                type="email"
-                name="email"
-                id="email"
-                placeholder="Enter your email address"
-            >
+        <label for="name">
+            Name
+        </label>
 
-
-            <label for="mobile">
-                Mobile Number
-            </label>
-
-            <input
-                type="tel"
-                name="mobile"
-                id="mobile"
-                placeholder="Enter your mobile number"
-                maxlength="10"
-            >
+        <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
+            required
+        >
 
 
-            <label for="dob">
-                Date of Birth
-            </label>
+        <!-- EMAIL -->
 
-            <input
-                type="date"
-                name="dob"
-                id="dob"
-                required
-            >
+        <label for="email">
+            Email Address
+        </label>
 
-
-            <label for="password">
-                Password
-            </label>
-
-            <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Create your password"
-                required
-            >
+        <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter your email address"
+        >
 
 
-            <button type="submit">
-                Register
-            </button>
+        <!-- MOBILE -->
 
-        </form>
+        <label for="mobile">
+            Mobile Number
+        </label>
+
+        <input
+            type="tel"
+            id="mobile"
+            name="mobile"
+            placeholder="Enter your mobile number"
+        >
 
 
-        <p>
-            Already have an account?
-            <a href="/login">Login</a>
-        </p>
+        <!-- DATE OF BIRTH -->
 
-    </div>
+        <label for="dob">
+            Date of Birth
+        </label>
+
+        <input
+            type="date"
+            id="dob"
+            name="dob"
+            required
+        >
 
 
-    <script
-        src="{{ url_for('static', filename='script.js') }}">
-    </script>
+        <!-- PASSWORD -->
+
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Create a password"
+            required
+        >
+
+
+        <!-- REGISTER BUTTON -->
+
+        <button
+            type="submit"
+            style="
+                width:100%;
+                height:48px;
+                font-size:16px;
+            "
+        >
+
+            📝 Register
+
+        </button>
+
+
+    </form>
+
+
+    <!-- LOGIN LINK -->
+
+    <p
+        style="
+            text-align:center;
+            margin-top:20px;
+        "
+    >
+
+        Already have an account?
+
+        <a href="/login">
+            Login
+        </a>
+
+    </p>
+
+
+</div>
 
 </body>
 
 </html>
+```
