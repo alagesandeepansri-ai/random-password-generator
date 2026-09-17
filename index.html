@@ -1,116 +1,630 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Password Generator</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Secure Password Generator</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
 </head>
+
 
 <body>
 
-    <div class="container">
+<div class="dashboard">
 
-        <h1>🔐 Random Password Generator</h1>
-        <p>Create a strong and secure password</p>
 
-        <form method="POST">
+    <!-- TOP BAR -->
 
-            <label for="length">Password Length</label>
+    <div class="top-bar">
 
-            <input
-                type="number"
-                name="length"
-                id="length"
-                min="4"
-                max="50"
-                value="12"
-                required
-            >
+        <div>
 
-            <div class="presets">
-                <button type="button" onclick="setLength(8)">8</button>
-                <button type="button" onclick="setLength(12)">12</button>
-                <button type="button" onclick="setLength(16)">16</button>
-                <button type="button" onclick="setLength(20)">20</button>
-            </div>
+            <h1>🔐 Password Generator</h1>
 
-            <h3>Character Options</h3>
+            <p>
+                Create a secure password based on your requirements.
+            </p>
 
-            <div class="options">
+        </div>
 
-                <label>
-                    <input type="checkbox" name="uppercase" checked>
-                    Uppercase Letters (A-Z)
-                </label>
 
-                <label>
-                    <input type="checkbox" name="lowercase" checked>
-                    Lowercase Letters (a-z)
-                </label>
+        <!-- HAMBURGER MENU -->
 
-                <label>
-                    <input type="checkbox" name="numbers" checked>
-                    Numbers (0-9)
-                </label>
+        <div class="menu-container">
 
-                <label>
-                    <input type="checkbox" name="symbols" checked>
-                    Symbols (!@#$)
-                </label>
+            <button
+                type="button"
+                class="menu-button"
+                id="menuButton">
 
-            </div>
+                ☰
 
-            <button type="submit">Generate Password</button>
+            </button>
 
-        </form>
 
-        {% if password %}
-        <div class="result">
+            <div
+                id="menu"
+                class="menu">
 
-            <h3>Your Password</h3>
+                <a href="/profile">
+                    👤 Profile
+                </a>
 
-            <div class="password-box"
-                 data-password="{{ password }}"
-                 data-hidden="false">
-                {{ password }}
-            </div>
+                <a href="/change-password">
+                    🔑 Change Password
+                </a>
 
-            <button onclick="togglePassword()">👁️ Show / Hide Password</button>
+                <a href="/password-history">
+                    📜 Password History
+                </a>
 
-            <button onclick="copyPassword()">Copy Password</button>
+                <a href="/admin-login">
+                    ⚙️ Admin Login
+                </a>
 
-            <h3>Password Strength</h3>
+                <a href="/logout">
+                    🚪 Logout
+                </a>
 
-            <div class="strength-box">
-                {{ strength }}
             </div>
 
         </div>
-        {% endif %}
-
-        {% if history %}
-        <div class="history">
-
-            <h3>Password History</h3>
-
-            {% for item in history %}
-            <div class="history-item">
-                {{ item }}
-            </div>
-            {% endfor %}
-
-            <form method="POST" action="/clear-history">
-                <button type="submit">🗑️ Clear History</button>
-            </form>
-
-        </div>
-        {% endif %}
 
     </div>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+
+    <!-- GENERATOR CARD -->
+
+    <div class="generator-card">
+
+
+        <h2>
+            Generate a Strong Password
+        </h2>
+
+
+        <p>
+            Create a secure password based on your requirements.
+        </p>
+
+
+
+        <!-- PASSWORD FORM -->
+
+        <form method="POST">
+
+
+            <!-- PASSWORD LENGTH -->
+
+            <label for="length">
+
+                <strong>
+                    Password Length
+                </strong>
+
+            </label>
+
+
+            <input
+                type="number"
+                id="length"
+                name="length"
+                min="4"
+                max="50"
+                value="{{ length or 12 }}"
+                required>
+
+
+
+            <!-- LENGTH BUTTONS -->
+
+            <div
+                style="
+                    display:flex;
+                    gap:8px;
+                    margin:10px 0 20px 0;
+                    flex-wrap:wrap;
+                ">
+
+
+                <button
+                    type="button"
+                    class="length-button"
+                    data-length="8">
+
+                    8
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="length-button"
+                    data-length="12">
+
+                    12
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="length-button"
+                    data-length="16">
+
+                    16
+
+                </button>
+
+
+                <button
+                    type="button"
+                    class="length-button"
+                    data-length="20">
+
+                    20
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- CHARACTER OPTIONS -->
+
+            <h3>
+                Character Options
+            </h3>
+
+
+            <p>
+                Select the character types you want to include.
+            </p>
+
+
+            <div class="options">
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="uppercase"
+                        {% if uppercase %}checked{% endif %}>
+
+                    Uppercase Letters (A-Z)
+
+                </label>
+
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="lowercase"
+                        {% if lowercase %}checked{% endif %}>
+
+                    Lowercase Letters (a-z)
+
+                </label>
+
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="numbers"
+                        {% if numbers %}checked{% endif %}>
+
+                    Numbers (0-9)
+
+                </label>
+
+
+
+                <label>
+
+                    <input
+                        type="checkbox"
+                        name="symbols"
+                        {% if symbols %}checked{% endif %}>
+
+                    Symbols (!@#$)
+
+                </label>
+
+
+            </div>
+
+
+
+            <!-- GENERATE BUTTON -->
+
+            <button
+                type="submit"
+                class="generate-button">
+
+                🔐 Generate Password
+
+            </button>
+
+
+        </form>
+
+
+
+        <!-- GENERATED PASSWORD -->
+
+        {% if password %}
+
+
+        <div class="result">
+
+
+            <h3>
+                Generated Password
+            </h3>
+
+
+            <div
+                class="password-box"
+                data-password="{{ password }}"
+                data-hidden="true">
+
+                ••••••••••••••
+
+            </div>
+
+
+
+            <!-- SHOW / HIDE + COPY -->
+
+            <div
+                style="
+                    display:flex;
+                    gap:10px;
+                    margin-top:12px;
+                    flex-wrap:wrap;
+                ">
+
+
+                <button
+                    type="button"
+                    id="showHideButton"
+                    style="flex:1;">
+
+                    👁️ Show / Hide Password
+
+                </button>
+
+
+                <button
+                    type="button"
+                    id="copyButton"
+                    style="flex:1;">
+
+                    📋 Copy Password
+
+                </button>
+
+
+            </div>
+
+
+
+            <!-- PASSWORD STRENGTH -->
+
+            <div class="strength">
+
+                <h3>
+                    Password Strength
+                </h3>
+
+
+                <strong>
+                    {{ strength }}
+                </strong>
+
+            </div>
+
+
+        </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+
+<!-- ========================================= -->
+<!-- JAVASCRIPT -->
+<!-- ========================================= -->
+
+<script>
+
+
+// -----------------------------------------
+// PASSWORD LENGTH BUTTONS
+// -----------------------------------------
+
+document.querySelectorAll(".length-button")
+.forEach(function(button) {
+
+    button.addEventListener(
+        "click",
+        function() {
+
+            const length =
+                this.getAttribute("data-length");
+
+            document.getElementById("length").value =
+                length;
+
+        }
+    );
+
+});
+
+
+
+// -----------------------------------------
+// SHOW / HIDE PASSWORD
+// -----------------------------------------
+
+const showHideButton =
+    document.getElementById("showHideButton");
+
+
+if (showHideButton) {
+
+    showHideButton.addEventListener(
+        "click",
+        function() {
+
+            const passwordBox =
+                document.querySelector(".password-box");
+
+
+            if (!passwordBox) {
+                return;
+            }
+
+
+            const password =
+                passwordBox.getAttribute(
+                    "data-password"
+                );
+
+
+            const hidden =
+                passwordBox.getAttribute(
+                    "data-hidden"
+                );
+
+
+            if (hidden === "true") {
+
+                passwordBox.innerText =
+                    password;
+
+                passwordBox.setAttribute(
+                    "data-hidden",
+                    "false"
+                );
+
+            }
+
+            else {
+
+                passwordBox.innerText =
+                    "••••••••••••••";
+
+                passwordBox.setAttribute(
+                    "data-hidden",
+                    "true"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+
+// -----------------------------------------
+// COPY PASSWORD
+// -----------------------------------------
+
+const copyButton =
+    document.getElementById("copyButton");
+
+
+if (copyButton) {
+
+    copyButton.addEventListener(
+        "click",
+        function() {
+
+            const passwordBox =
+                document.querySelector(
+                    ".password-box"
+                );
+
+
+            if (!passwordBox) {
+                return;
+            }
+
+
+            const password =
+                passwordBox.getAttribute(
+                    "data-password"
+                );
+
+
+            // Modern copy method
+
+            if (
+                navigator.clipboard &&
+                window.isSecureContext
+            ) {
+
+                navigator.clipboard
+                .writeText(password)
+                .then(function() {
+
+                    alert(
+                        "Password copied!"
+                    );
+
+                })
+                .catch(function() {
+
+                    fallbackCopy(password);
+
+                });
+
+            }
+
+            else {
+
+                fallbackCopy(password);
+
+            }
+
+        }
+    );
+
+}
+
+
+
+// -----------------------------------------
+// FALLBACK COPY
+// -----------------------------------------
+
+function fallbackCopy(password) {
+
+    const textArea =
+        document.createElement("textarea");
+
+
+    textArea.value =
+        password;
+
+
+    document.body.appendChild(
+        textArea
+    );
+
+
+    textArea.select();
+
+
+    try {
+
+        document.execCommand("copy");
+
+        alert(
+            "Password copied!"
+        );
+
+    }
+
+    catch (error) {
+
+        alert(
+            "Copy failed. Please copy manually."
+        );
+
+    }
+
+
+    document.body.removeChild(
+        textArea
+    );
+
+}
+
+
+
+// -----------------------------------------
+// HAMBURGER MENU
+// -----------------------------------------
+
+const menuButton =
+    document.getElementById(
+        "menuButton"
+    );
+
+
+const menu =
+    document.getElementById(
+        "menu"
+    );
+
+
+if (menuButton && menu) {
+
+    menuButton.addEventListener(
+        "click",
+        function(event) {
+
+            event.stopPropagation();
+
+            menu.classList.toggle(
+                "show"
+            );
+
+        }
+    );
+
+
+    document.addEventListener(
+        "click",
+        function(event) {
+
+            if (
+                !menu.contains(event.target) &&
+                !menuButton.contains(event.target)
+            ) {
+
+                menu.classList.remove(
+                    "show"
+                );
+
+            }
+
+        }
+    );
+
+}
+
+
+</script>
+
 
 </body>
+
 </html>
+```

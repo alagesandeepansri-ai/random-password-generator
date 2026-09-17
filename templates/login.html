@@ -1,79 +1,93 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
 
-    <meta charset="UTF-8">
+```
+<meta charset="UTF-8">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
 
-    <title>User Login</title>
+<title>User Login</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+```
 
 </head>
 
 <body>
 
-    <div class="container">
+```
+<div class="container">
 
-        <h1>🔐 User Login</h1>
+    <h1>🔐 User Login</h1>
 
-        <p>Login to use the Password Generator</p>
-
-
-        {% if message %}
-
-        <p style="color: red;">
-            {{ message }}
-        </p>
-
-        {% endif %}
+    <p>Login to use the Password Generator</p>
 
 
-        <form method="POST">
+    {% if message %}
 
-            <label for="login_value">
-                Email or Mobile Number
-            </label>
+    <p style="color: red;">
+        {{ message }}
+    </p>
 
-            <input
-                type="text"
-                name="login_value"
-                id="login_value"
-                placeholder="Enter email or mobile number"
-                required
-            >
+    {% endif %}
 
 
-            <label for="password">
-                Password
-            </label>
+    <form method="POST">
 
-            <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Enter your password"
-                required
-            >
+        <label for="login_value">
+            Email or Mobile Number
+        </label>
 
-
-            <button type="submit">
-                Login
-            </button>
-
-        </form>
+        <input
+            type="text"
+            name="login"
+            id="login_value"
+            placeholder="Enter email or mobile number"
+            required
+        >
 
 
-        <p>
-            Don't have an account?
-            <a href="/register">Register</a>
-        </p>
+        <label for="password">
+            Password
+        </label>
 
-    </div>
+        <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Enter your password"
+            required
+        >
+
+
+        <button type="submit">
+            Login
+        </button>
+
+    </form>
+
+
+    <p>
+        <a href="/forgot-password">
+            Forgot Password?
+        </a>
+    </p>
+
+
+    <p>
+        Don't have an account?
+        <a href="/register">
+            Register
+        </a>
+    </p>
+
+</div>
+```
 
 </body>
 

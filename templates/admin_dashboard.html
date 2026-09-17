@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 
@@ -15,114 +16,321 @@
 
 </head>
 
+
 <body>
 
-    <div class="container">
-
-        <h1>🛡️ Admin Dashboard</h1>
-
-        <p>Welcome, {{ session["admin_username"] }}</p>
+<div class="dashboard">
 
 
-        <!-- Dashboard Summary -->
+    <!-- TOP BAR -->
 
-        <div class="result">
+    <div class="top-bar">
 
-            <h3>Total Registered Users</h3>
+        <div>
 
-            <div class="strength-box">
-                {{ user_count }}
-            </div>
+            <h1>
+                ⚙️ Admin Dashboard
+            </h1>
 
-
-            <h3>Total Generated Passwords</h3>
-
-            <div class="strength-box">
-                {{ password_count }}
-            </div>
+            <p>
+                Manage registered users and password activity.
+            </p>
 
         </div>
-
-
-        <!-- User Management -->
-
-        <div class="history">
-
-            <h3>👥 User Management</h3>
-
-
-            {% if users %}
-
-                {% for user in users %}
-
-                <div class="history-item">
-
-                    <strong>Name:</strong>
-                    {{ user["name"] }}
-
-                    <br>
-
-                    <strong>Email:</strong>
-                    {{ user["email"] or "Not provided" }}
-
-                    <br>
-
-                    <strong>Mobile:</strong>
-                    {{ user["mobile"] or "Not provided" }}
-
-                    <br>
-
-                    <strong>Date of Birth:</strong>
-                    {{ user["dob"] }}
-
-                    <br>
-
-                    <strong>Passwords Generated:</strong>
-                    {{ user["password_count"] }}
-
-                </div>
-
-                {% endfor %}
-
-            {% else %}
-
-                <p>
-                    No registered users found.
-                </p>
-
-            {% endif %}
-
-        </div>
-
-
-        <!-- Admin Logout -->
-
-        <a href="/admin-logout">
-
-            <button type="button">
-                🚪 Admin Logout
-            </button>
-
-        </a>
-
-
-        <!-- User Login -->
-
-        <a href="/login">
-
-            <button type="button">
-                👤 User Login
-            </button>
-
-        </a>
 
     </div>
 
 
-    <script
-        src="{{ url_for('static', filename='script.js') }}">
-    </script>
+
+    <!-- STATISTICS -->
+
+    <div
+        style="
+            display:flex;
+            justify-content:center;
+            gap:25px;
+            flex-wrap:wrap;
+            margin-bottom:30px;
+        ">
+
+
+        <!-- TOTAL REGISTERED USERS -->
+
+        <div
+            style="
+                background:white;
+                width:260px;
+                min-height:150px;
+                padding:20px;
+                border-radius:15px;
+                text-align:center;
+                box-shadow:0 4px 15px rgba(0,0,0,0.12);
+                box-sizing:border-box;
+            ">
+
+            <div style="
+                font-size:35px;
+                margin-bottom:5px;
+            ">
+                👥
+            </div>
+
+            <h3 style="
+                margin:5px 0;
+                font-size:17px;
+            ">
+                Total Registered Users
+            </h3>
+
+            <div style="
+                font-size:38px;
+                font-weight:bold;
+                margin-top:10px;
+            ">
+                {{ total_users }}
+            </div>
+
+        </div>
+
+
+
+        <!-- TOTAL GENERATED PASSWORDS -->
+
+        <div
+            style="
+                background:white;
+                width:260px;
+                min-height:150px;
+                padding:20px;
+                border-radius:15px;
+                text-align:center;
+                box-shadow:0 4px 15px rgba(0,0,0,0.12);
+                box-sizing:border-box;
+            ">
+
+            <div style="
+                font-size:35px;
+                margin-bottom:5px;
+            ">
+                🔐
+            </div>
+
+            <h3 style="
+                margin:5px 0;
+                font-size:17px;
+            ">
+                Total Generated Passwords
+            </h3>
+
+            <div style="
+                font-size:38px;
+                font-weight:bold;
+                margin-top:10px;
+            ">
+                {{ total_passwords }}
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- USER MANAGEMENT -->
+
+    <div class="generator-card">
+
+        <h2>
+            👥 User Management
+        </h2>
+
+        <p>
+            Registered users and their password generation activity.
+        </p>
+
+
+        {% if users %}
+
+
+            {% for user in users %}
+
+
+            <!-- USER CARD -->
+
+            <div
+                style="
+                    background:#f7f7f7;
+                    padding:20px;
+                    border-radius:12px;
+                    margin-top:20px;
+                    margin-bottom:20px;
+                    border:1px solid #e5e5e5;
+                ">
+
+
+                <h3 style="
+                    margin-top:0;
+                    margin-bottom:15px;
+                ">
+
+                    👤 {{ user['name'] }}
+
+                </h3>
+
+
+                <p style="
+                    margin:8px 0;
+                ">
+
+                    <strong>
+                        Email:
+                    </strong>
+
+                    {{ user['email'] or 'Not provided' }}
+
+                </p>
+
+
+                <p style="
+                    margin:8px 0;
+                ">
+
+                    <strong>
+                        Mobile:
+                    </strong>
+
+                    {{ user['mobile'] or 'Not provided' }}
+
+                </p>
+
+
+                <p style="
+                    margin:8px 0;
+                ">
+
+                    <strong>
+                        Date of Birth:
+                    </strong>
+
+                    {{ user['dob'] }}
+
+                </p>
+
+
+                <p style="
+                    margin:8px 0 0;
+                ">
+
+                    <strong>
+                        Passwords Generated:
+                    </strong>
+
+                    {{ user['password_count'] }}
+
+                </p>
+
+
+            </div>
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+
+            <!-- NO USERS -->
+
+            <div
+                style="
+                    background:#f7f7f7;
+                    padding:25px;
+                    border-radius:10px;
+                    text-align:center;
+                    margin-top:20px;
+                ">
+
+                <h3>
+                    No Registered Users
+                </h3>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </div>
+
+
+
+    <!-- ADMIN BUTTONS -->
+
+    <div
+        style="
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            gap:15px;
+            margin-top:25px;
+            flex-wrap:wrap;
+        ">
+
+
+        <!-- ADMIN LOGOUT -->
+
+        <a
+            href="/admin-logout"
+            style="
+                text-decoration:none;
+            ">
+
+            <button
+                type="button"
+                style="
+                    width:180px;
+                    height:48px;
+                    font-size:16px;
+                ">
+
+                🚪 Admin Logout
+
+            </button>
+
+        </a>
+
+
+
+        <!-- USER LOGIN -->
+
+        <a
+            href="/login"
+            style="
+                text-decoration:none;
+            ">
+
+            <button
+                type="button"
+                style="
+                    width:180px;
+                    height:48px;
+                    font-size:16px;
+                ">
+
+                👤 User Login
+
+            </button>
+
+        </a>
+
+
+    </div>
+
+
+</div>
 
 </body>
 
 </html>
+```

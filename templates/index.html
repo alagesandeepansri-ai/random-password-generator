@@ -8,274 +8,294 @@
     <meta name="viewport"
           content="width=device-width, initial-scale=1.0">
 
-    <title>Random Password Generator</title>
+    <title>Secure Password Generator</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
 
 </head>
 
+
 <body>
 
-    <div class="container">
-
-        <h1>🔐 Random Password Generator</h1>
-
-        <p>Create a strong and secure password</p>
+<div class="dashboard">
 
 
-        <!-- Logout -->
+    <!-- TOP BAR -->
 
-        <a href="/logout">
+    <div class="top-bar">
 
-            <button type="button">
-                Logout
+        <div>
+
+            <h1>🔐 Secure Password Generator</h1>
+
+            <p>
+                Create a strong and secure password based on your requirements.
+            </p>
+
+        </div>
+
+
+        <!-- HAMBURGER MENU -->
+
+        <div class="menu-container">
+
+            <button
+                type="button"
+                class="menu-button"
+                onclick="toggleMenu()">
+
+                ☰
+
             </button>
 
-        </a>
+
+            <div
+                id="menu"
+                class="menu">
+
+                <a href="/profile">
+                    👤 Profile
+                </a>
+
+                <a href="/change-password">
+                    🔑 Change Password
+                </a>
+
+                <a href="/password-history">
+                    📜 Password History
+                </a>
+
+                <a href="/admin-login">
+                    ⚙️ Admin Login
+                </a>
+
+                <a href="/logout">
+                    🚪 Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- PASSWORD GENERATOR -->
+
+    <div class="generator-card">
+
+        <h2>
+            Generate a Strong Password
+        </h2>
+
+        <p>
+            Select your requirements and generate a secure password.
+        </p>
 
 
         <form method="POST">
 
-            <label for="length">
+
+            <!-- PASSWORD LENGTH -->
+
+            <label>
                 Password Length
             </label>
 
+
             <input
                 type="number"
-                name="length"
                 id="length"
+                name="length"
                 min="4"
                 max="50"
-                value="{{ request.form.get('length', 12) }}"
+                value="{{ length }}"
                 required
             >
 
 
-            <!-- Password Length Presets -->
+            <!-- QUICK LENGTH BUTTONS -->
 
-            <div class="presets">
+            <div style="
+                display:flex;
+                justify-content:center;
+                align-items:center;
+                gap:15px;
+                margin:20px 0 30px;
+                flex-wrap:wrap;
+            ">
 
                 <button
                     type="button"
-                    onclick="setLength(8)">
+                    onclick="setLength(8)"
+                    style="
+                        width:60px;
+                        height:45px;
+                        font-size:16px;
+                    ">
                     8
                 </button>
 
+
                 <button
                     type="button"
-                    onclick="setLength(12)">
+                    onclick="setLength(12)"
+                    style="
+                        width:60px;
+                        height:45px;
+                        font-size:16px;
+                    ">
                     12
                 </button>
 
-                <button
-                    type="button"
-                    onclick="setLength(16)">
-                    16
-                </button>
 
                 <button
                     type="button"
-                    onclick="setLength(20)">
+                    onclick="setLength(16)"
+                    style="
+                        width:60px;
+                        height:45px;
+                        font-size:16px;
+                    ">
+                    16
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="setLength(20)"
+                    style="
+                        width:60px;
+                        height:45px;
+                        font-size:16px;
+                    ">
                     20
                 </button>
 
             </div>
 
 
-            <!-- Character Options -->
 
-            <h3>Character Options</h3>
+            <!-- CHARACTER OPTIONS -->
 
-            <p class="option-description">
-                Select the character types you want to include
+            <h3 style="margin-top:20px;">
+                Character Options
+            </h3>
+
+
+            <p style="
+                margin-top:20px;
+                margin-bottom:20px;
+            ">
+                Select the character types you want to include.
             </p>
 
 
-            <div class="options">
 
-                <label>
+            <!-- UPPERCASE -->
 
-                    <input
-                        type="checkbox"
-                        name="uppercase"
-                        {% if request.form.get('uppercase') %}
-                        checked
-                        {% endif %}
-                    >
+            <label style="
+                display:block;
+                margin-bottom:12px;
+            ">
 
-                    Uppercase Letters (A-Z)
+                <input
+                    type="checkbox"
+                    name="uppercase"
+                    {% if uppercase %}checked{% endif %}
+                >
 
-                </label>
+                Uppercase Letters (A-Z)
 
-
-                <label>
-
-                    <input
-                        type="checkbox"
-                        name="lowercase"
-                        {% if request.form.get('lowercase') %}
-                        checked
-                        {% endif %}
-                    >
-
-                    Lowercase Letters (a-z)
-
-                </label>
+            </label>
 
 
-                <label>
 
-                    <input
-                        type="checkbox"
-                        name="numbers"
-                        {% if request.form.get('numbers') %}
-                        checked
-                        {% endif %}
-                    >
+            <!-- LOWERCASE -->
 
-                    Numbers (0-9)
+            <label style="
+                display:block;
+                margin-bottom:12px;
+            ">
 
-                </label>
+                <input
+                    type="checkbox"
+                    name="lowercase"
+                    {% if lowercase %}checked{% endif %}
+                >
 
+                Lowercase Letters (a-z)
 
-                <label>
-
-                    <input
-                        type="checkbox"
-                        name="symbols"
-                        {% if request.form.get('symbols') %}
-                        checked
-                        {% endif %}
-                    >
-
-                    Symbols (!@#$)
-
-                </label>
-
-            </div>
+            </label>
 
 
-            <button type="submit">
-                Generate Password
+
+            <!-- NUMBERS -->
+
+            <label style="
+                display:block;
+                margin-bottom:12px;
+            ">
+
+                <input
+                    type="checkbox"
+                    name="numbers"
+                    {% if numbers %}checked{% endif %}
+                >
+
+                Numbers (0-9)
+
+            </label>
+
+
+
+            <!-- SYMBOLS -->
+
+            <label style="
+                display:block;
+                margin-bottom:20px;
+            ">
+
+                <input
+                    type="checkbox"
+                    name="symbols"
+                    {% if symbols %}checked{% endif %}
+                >
+
+                Symbols (!@#$)
+
+            </label>
+
+
+
+            <!-- GENERATE BUTTON -->
+
+            <button
+                type="submit"
+                style="
+                    display:block;
+                    width:220px;
+                    height:48px;
+                    margin:25px auto 0;
+                    font-size:16px;
+                ">
+
+                🔐 Generate Password
+
             </button>
+
 
         </form>
-
-
-        <!-- Generated Password -->
-
-        {% if password %}
-
-        <div class="result">
-
-            <h3>Your Password</h3>
-
-
-            <div
-                class="password-box"
-                data-password="{{ password }}"
-                data-hidden="false">
-
-                {{ password }}
-
-            </div>
-
-
-            <button
-                type="button"
-                onclick="togglePassword()">
-
-                👁️ Show / Hide Password
-
-            </button>
-
-
-            <button
-                type="button"
-                onclick="copyPassword()">
-
-                Copy Password
-
-            </button>
-
-
-            <h3>Password Strength</h3>
-
-
-            <div class="strength-box">
-
-                {{ strength }}
-
-            </div>
-
-        </div>
-
-        {% endif %}
-
-
-        <!-- Password History -->
-
-        {% if history %}
-
-        <div class="history">
-
-            <h3>Password History</h3>
-
-
-            {% for item in history %}
-
-            <div class="history-item">
-
-                <strong>Password:</strong>
-
-                <span>
-                    {{ item["password"] }}
-                </span>
-
-                <br><br>
-
-                <strong>Date:</strong>
-
-                <span>
-                    {{ item["created_at"].split(" ")[0] }}
-                </span>
-
-                <br>
-
-                <strong>Time:</strong>
-
-                <span>
-                    {{ item["created_at"].split(" ")[1] }}
-                </span>
-
-            </div>
-
-            {% endfor %}
-
-
-            <form
-                method="POST"
-                action="/clear-history">
-
-                <button type="submit">
-
-                    🗑️ Clear History
-
-                </button>
-
-            </form>
-
-        </div>
-
-        {% endif %}
 
     </div>
 
 
-    <script
-        src="{{ url_for('static', filename='script.js') }}">
-    </script>
+</div>
+
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 
